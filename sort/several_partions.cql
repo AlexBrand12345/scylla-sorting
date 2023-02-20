@@ -30,6 +30,10 @@ CREATE MATERIALIZED VIEW several_partitions_view AS
         SELECT * FROM several_partitions_tbl
         WHERE partition IS NOT NULL AND clustering1 IS NOT NULL AND clustering2 IS NOT NULL AND other2 IS NOT NULL
         PRIMARY KEY(other2, partition, clustering2, clustering1);
+/* 
+    query for output with token
+    SELECT token(other2), other2, partition, clustering2, clustering1, other1 from several_partitions_view; 
+*/
 
 /* All clustering keys must be presented in view's PRIMARY KEY, next query will lead to error */
 /* 
