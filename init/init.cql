@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS several_partitions_tbl (
     other1 text, 
     other2 int,
     PRIMARY KEY ((partition), clustering1, clustering2)
-);
+) WITH CLUSTERING ORDER BY (clustering1 ASC, clustering2 DESC);
 INSERT INTO several_partitions_tbl (partition, clustering1, clustering2, other1, other2) VALUES (0, 'A', 45, 'EKwe', 100);
 INSERT INTO several_partitions_tbl (partition, clustering1, clustering2, other1, other2) VALUES (0, 'C', 27, 'seut', 107);
 INSERT INTO several_partitions_tbl (partition, clustering1, clustering2, other1, other2) VALUES (2, 'F', 11, 'Udfg', 121);
