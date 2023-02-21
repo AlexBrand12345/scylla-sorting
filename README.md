@@ -47,29 +47,29 @@ This method allows to change cluster level for sorting but still depends on `par
 
 
 ## Examples
-Tables creation `init/init.cql`, `docker-compose.yaml` and sorting scipts you can find in the folder.
+Tables creation `init/init.cql`, `docker-compose.yaml` and sorting scripts you can find in the folder.
 
 ### One-partition table `!!!Bad way to store data`
 
-Table with partition `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
+Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
 
 ![изображение](https://user-images.githubusercontent.com/62651944/220205750-e7a0bf80-f44c-4c22-b42a-f31512be9209.png)
 
-View with partition `partition`, sorted by `other1/DESC`
+View with partition_key `partition`, sorted by `other1/DESC`
 
 ![изображение](https://user-images.githubusercontent.com/62651944/220205842-e380493b-8676-4132-915d-034684d08723.png)
 
 ### Several partitions table
 
-Table with partition `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
+Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
 
 ![изображение](https://user-images.githubusercontent.com/62651944/220206592-250c5a27-dc7a-41b6-8ee7-57edf5342876.png)
 
-View with partition `partition`, sorted by `other2/ASC`
+View with partition_key `partition`, sorted by `other2/ASC`
 
 ![изображение](https://user-images.githubusercontent.com/62651944/220207231-7f746b0d-60cf-44ec-a7bd-6c322abbb450.png)
 
-View with partition `other2`, sorted by default `token(other2)`. Token added to results.
+View with partition_key `other2`, sorted by default `token(other2)`. Token added to results.
 
 ![изображение](https://user-images.githubusercontent.com/62651944/220207657-ed3409a2-380d-4719-8a2e-fe76762fd20c.png)
 
