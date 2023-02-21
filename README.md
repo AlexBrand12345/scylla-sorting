@@ -25,7 +25,7 @@ SELECT * FROM `table_name`
 ```
 Error:  ```InvalidRequest: Error from server: code=2200 [Invalid query] message="Cannot page queries with both ORDER BY and a IN restriction on the partition key; you must either remove the ORDER BY or the IN and sort client side, or disable paging for this query"```
 
-So when we want to sort our data, we should filter our partition with `EQ` and then get results, sorted by clustering keys inside previuos key results.
+So when we want to sort our data, we should filter our partition with `EQ` and then get results, sorted by clustering keys inside previous key results.
 
 ### Views
 To change clustering order we can use `MATERIALIZED VIEWS`:
