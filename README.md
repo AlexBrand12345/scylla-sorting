@@ -75,4 +75,4 @@ View with partition_key `other2`, sorted by default `token(other2)`. Token added
 
 ## Results
 As we see, we have opportunity to change table `clustering order` by `views`. 
-It allows to sort the whole table if it has only one partition value, but several partition values returns same amount of sorted chunks. 
+It allows to sort the whole table if it has only one partition value, but several partition values returns exactly the same number of sorted chunks. If sorting row is the partition _key, it is sorted by token value.
