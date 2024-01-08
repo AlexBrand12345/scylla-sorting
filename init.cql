@@ -1,4 +1,5 @@
-CREATE KEYSPACE IF NOT EXISTS testing WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};
+DROP KEYSPACE IF EXISTS test
+CREATE KEYSPACE IF NOT EXISTS test WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};
 USE test;
 
 DROP TABLE IF EXISTS different_partitions_tbl;

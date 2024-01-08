@@ -1,10 +1,9 @@
 version: '3'
 
 services:
-
   scylla:
     image: scylladb/scylla
-    hostname: scylla.local
+    hostname: scylla-sorting.local
     restart: always
     ports: 
-      - 127.0.0.10:9042:9042 # Add this host into etc/hosts - 127.0.0.10 scylla.local
+      - 127.0.0.10:9042:9042 # Add this host into /etc/hosts or c:\windows\system32\drivers\etc\hosts - 127.0.0.33 scylla-sorting.local

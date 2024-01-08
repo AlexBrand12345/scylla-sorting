@@ -13,11 +13,13 @@ For sorting feature we should use `clustering key(s)`
 CREATE TABLE IF NOT EXISTS `table_name` (
   ..., 
   PRIMARY KEY((partition_key1, partition_key2, ...), 
-    clustering_key1, clustering_key2, ...))
+    clustering_key1, clustering_key2, ...)
 ) WITH CLUSTERING ORDER BY (clustering_key1 `ASC/DESC`, clustering2...);
 ```
-After table creation we can only reverse all columns.
-`ORDER BY` only supported when the partition key is restricted by an `EQ` or an `IN`, however next query leads to error.
+<!-- After table creation we can only reverse all columns. -->
+`ORDER BY` is only supported when the partition key is restricted by an `EQ` or an `IN`.
+
+However, next query leads to error
 ```SQL
 SELECT * FROM `table_name` 
     WHERE partition IN (value1, value2, ...)
@@ -28,7 +30,7 @@ Error:  ```InvalidRequest: Error from server: code=2200 [Invalid query] message=
 So when we want to sort our data, we should filter our partition with `EQ` and then get results, sorted by clustering keys inside previous key results.
 
 ### Views
-To change clustering order we can use `MATERIALIZED VIEWS`:
+To change clustering order we can use `MATERIALIZED VIEWS`, based on the `table_name`
 ```SQL
 CREATE MATERIALIZED VIEW `view_name` AS
         SELECT * FROM `table_name`
@@ -40,39 +42,41 @@ CREATE MATERIALIZED VIEW `view_name` AS
         PRIMARY KEY(partition_key2, other_key2, partition_key1, clustering_key2, clustering_key1) 
         WITH CLUSTERING ORDER BY (other_key2 ASC);
 ```
-In code beyond we've created view, based on the `table_name` table, we must filter all values, used in `PRIMARY KEY`.
-`PRIMARY KEY` must contain all partition and clustering fields and may contain one `NON-PRIMARY KEY` from the original table.
+`PRIMARY KEY` must contain all partition and clustering fields and may contain one `NON-PRIMARY KEY` from the original table. To fill it we must filter all their values.
 
 This method allows to change cluster level for sorting but still depends on `partition key(s)`
 
 
-## Examples
-Tables creation `init/init.cql`, `docker-compose.yaml` and sorting scripts you can find in the folder.
+## Sorting examples
+You can run `docker-compose.yaml`, create and fill tables by running `init.cql` and explore sorting scripts in `scripts` folder. 
+:information_source: Test columns' names don't contain `_key` text to make better screenshots.
 
-### One-partition table `!!!Bad way to store data`
+### One-partition table :heavy_exclamation_mark:`Bad way to store data`:heavy_exclamation_mark:
 
 Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
-
+(Old image)
 ![изображение](https://user-images.githubusercontent.com/62651944/220205750-e7a0bf80-f44c-4c22-b42a-f31512be9209.png)
 
 View with partition_key `partition`, sorted by `other1/DESC`
-
+(Old image)
 ![изображение](https://user-images.githubusercontent.com/62651944/220205842-e380493b-8676-4132-915d-034684d08723.png)
 
 ### Several partitions table
+*You may see strange things in `partition_key`, check [notice](#notice)*
 
 Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
-
+(Old image)
 ![изображение](https://user-images.githubusercontent.com/62651944/220206592-250c5a27-dc7a-41b6-8ee7-57edf5342876.png)
 
 View with partition_key `partition`, sorted by `other2/ASC`
-
+(Old image)
 ![изображение](https://user-images.githubusercontent.com/62651944/220207231-7f746b0d-60cf-44ec-a7bd-6c322abbb450.png)
 
+#### Notice
 View with partition_key `other2`, sorted by default `token(other2)`. Token added to results.
-
+(Old image)
 ![изображение](https://user-images.githubusercontent.com/62651944/220207657-ed3409a2-380d-4719-8a2e-fe76762fd20c.png)
 
 ## Results
 As we see, we have opportunity to change table `clustering order` by `views`. 
-It allows to sort the whole table if it has only one partition value, but several partition values returns exactly the same number of sorted chunks. If sorting row is the partition _key, it is sorted by token value.
+It allows to sort the whole table if it has only one `partition_key` value, but several `partition_key` values returns exactly the same number of sorted chunks. Also keep in mind, that `partition_key` column is sorted by `token`, not by `value`.

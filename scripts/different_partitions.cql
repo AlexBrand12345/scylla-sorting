@@ -1,8 +1,8 @@
 /* common query */
 
 /*  
-    table uses WITH CLUSTERING ORDER BY 
-    if no clustering order set on creation, can't change the ordering
+    table uses 'WITH CLUSTERING ORDER BY' 
+    if clustering order wasn`t set on creation, can`t change the ordering
 */
 
 /* 

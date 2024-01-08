@@ -1,8 +1,8 @@
 /* common query */
 
 /*  
-    table uses WITH CLUSTERING ORDER BY 
-    if no clustering order set on creation, can't change the ordering
+    table uses 'WITH CLUSTERING ORDER BY'
+    if no clustering order set on creation, can`t change the ordering
 */
 
 /* 
@@ -35,7 +35,7 @@ CREATE MATERIALIZED VIEW several_partitions_view AS
     SELECT token(other2), other2, partition, clustering2, clustering1, other1 from several_partitions_view; 
 */
 
-/* All clustering keys must be presented in view's PRIMARY KEY, next query will lead to error */
+/* All clustering keys must be presented in view`s PRIMARY KEY, next query will lead to error */
 /* 
     InvalidRequest: Error from server: code=2200 [Invalid query] 
     message="Cannot create Materialized View several_partitions_view without primary key columns from base several_partitions_tbl (clustering1)" 

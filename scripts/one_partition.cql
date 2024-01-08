@@ -1,7 +1,7 @@
 /* common query */
 
 /* 
-    table uses WITH CLUSTERING ORDER BY 
+    table uses 'WITH CLUSTERING ORDER BY' 
     only whole ordering(all columns) set on creation can be reversed
 */
 
