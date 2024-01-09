@@ -51,33 +51,33 @@ This method allows to change cluster level for sorting but still depends on `par
 
 ## Sorting examples
 You should run `docker-compose.yaml`, create and fill tables by running `init.cql`, check [scripts](/scripts.md) file and add `views` for sortings. 
-:speech_balloon: Test columns' names don't contain `_key` text to make better screenshots.
+💬 Test columns' names don't contain `_key` text to make better screenshots.
 
 ### One partition table :heavy_exclamation_mark:`Bad way to store data`:heavy_exclamation_mark:
 
 Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
-(Old image)
-![изображение](https://user-images.githubusercontent.com/62651944/220205750-e7a0bf80-f44c-4c22-b42a-f31512be9209.png)
+
+![изображение](https://github.com/AlexBrand12345/scylla-sorting/assets/62651944/4a929aaa-fc8c-47e3-bf02-3a0e3bf11705)
 
 View with partition_key `partition`, sorted by `other1/DESC`
-(Old image)
-![изображение](https://user-images.githubusercontent.com/62651944/220205842-e380493b-8676-4132-915d-034684d08723.png)
+
+![изображение](https://github.com/AlexBrand12345/scylla-sorting/assets/62651944/507df71e-883b-4d4f-a353-3ead23f584cd)
 
 ### Multiple partition table
 *You may see strange things in `partition_key`, check [notice](#notice)*
 
 Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
-(Old image)
-![изображение](https://user-images.githubusercontent.com/62651944/220206592-250c5a27-dc7a-41b6-8ee7-57edf5342876.png)
+
+![изображение](https://github.com/AlexBrand12345/scylla-sorting/assets/62651944/74fbcace-b1a8-4726-9378-4aa0961b61d6)
 
 View with partition_key `partition`, sorted by `other2/ASC`
-(Old image)
-![изображение](https://user-images.githubusercontent.com/62651944/220207231-7f746b0d-60cf-44ec-a7bd-6c322abbb450.png)
+
+![изображение](https://github.com/AlexBrand12345/scylla-sorting/assets/62651944/1ebd48d8-d26d-417f-85c5-1a65e84ecc44)
 
 #### Notice
 View with partition_key `other2`, sorted by default `token(other2)`. Token added to results.
-(Old image)
-![изображение](https://user-images.githubusercontent.com/62651944/220207657-ed3409a2-380d-4719-8a2e-fe76762fd20c.png)
+
+![изображение](https://github.com/AlexBrand12345/scylla-sorting/assets/62651944/d306edb5-6941-48e5-a32e-efd6969c5493)
 
 ## Results
 As we see, we have opportunity to change table `clustering order` by `views`. 
