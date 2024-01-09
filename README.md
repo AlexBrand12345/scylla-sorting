@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `table_name` (
   ..., 
   PRIMARY KEY((partition_key1, partition_key2, ...), 
     clustering_key1, clustering_key2, ...)
-) WITH CLUSTERING ORDER BY (clustering_key1 `ASC/DESC`, clustering2...);
+) WITH CLUSTERING ORDER BY (clustering_key1 `ASC/DESC`, clustering2, ...);
 ```
 <!-- After table creation we can only reverse all columns. -->
 `ORDER BY` is only supported when the partition key is restricted by an `EQ` or an `IN`.
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `table_name` (
 However, next query leads to error
 ```SQL
 SELECT * FROM `table_name` 
-    WHERE partition IN (value1, value2, ...)
-    ORDER BY clustering1 ASC;
+  WHERE partition IN (value1, value2, ...)
+  ORDER BY clustering1 ASC;
 ```
 Error:  ```InvalidRequest: Error from server: code=2200 [Invalid query] message="Cannot page queries with both ORDER BY and a IN restriction on the partition key; you must either remove the ORDER BY or the IN and sort client side, or disable paging for this query"```
 
@@ -42,16 +42,18 @@ CREATE MATERIALIZED VIEW `view_name` AS
         PRIMARY KEY(partition_key2, other_key2, partition_key1, clustering_key2, clustering_key1) 
         WITH CLUSTERING ORDER BY (other_key2 ASC);
 ```
-`PRIMARY KEY` must contain all partition and clustering fields and may contain one `NON-PRIMARY KEY` from the original table. To fill it we must filter all their values.
+`PRIMARY KEY` must contain all partition and clustering fields and may contain one `NON-PRIMARY KEY` from the original table. Otherwise we get an Error: ```InvalidRequest: Error from server: code=2200 [Invalid query] message="Cannot create Materialized View 'something_view' without primary key columns from base 'something_tbl' ('key_name')"```
+
+To fill it we must filter all their values. Otherwise we get an Error: ```InvalidRequest: Error from server: code=2200 [Invalid query] message="Primary key column 'key_name' is required to be filtered by 'IS NOT NULL'"```
 
 This method allows to change cluster level for sorting but still depends on `partition key(s)`
 
 
 ## Sorting examples
-You can run `docker-compose.yaml`, create and fill tables by running `init.cql` and explore sorting scripts in `scripts` folder. 
-:information_source: Test columns' names don't contain `_key` text to make better screenshots.
+You should run `docker-compose.yaml`, create and fill tables by running `init.cql`, check [scripts](/scripts.md) file and add `views` for sortings. 
+:speech_balloon: Test columns' names don't contain `_key` text to make better screenshots.
 
-### One-partition table :heavy_exclamation_mark:`Bad way to store data`:heavy_exclamation_mark:
+### One partition table :heavy_exclamation_mark:`Bad way to store data`:heavy_exclamation_mark:
 
 Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
 (Old image)
@@ -61,7 +63,7 @@ View with partition_key `partition`, sorted by `other1/DESC`
 (Old image)
 ![изображение](https://user-images.githubusercontent.com/62651944/220205842-e380493b-8676-4132-915d-034684d08723.png)
 
-### Several partitions table
+### Multiple partition table
 *You may see strange things in `partition_key`, check [notice](#notice)*
 
 Table with partition_key `partition`, sorted by `clustering1/ASC` and `clustering2/DESC`
